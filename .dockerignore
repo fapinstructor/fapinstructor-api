@@ -1,0 +1,11 @@
+Makefile
+.git
+*Dockerfile*
+*docker-compose*
+.dockerignore
+node_modules
+npm-debug.log
+.gitignore
+infrastructure
+README.md
+LICENSE

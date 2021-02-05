@@ -1,0 +1,20 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - apk add --no-cache curl jq
+    - apk add --update --no-cache curl py-pip
+    - pip install awscli
+    - chmod u+x scripts/release.sh
+    - chmod u+x scripts/db-migrate.sh
+    - chmod u+x scripts/db-seed.sh
+    - ./scripts/release.sh
+  only:
+    - master

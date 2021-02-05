@@ -1,0 +1,66 @@
+{
+  "name": "fapinstructor-api",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest test",
+    "db-seed": "knex seed:run",
+    "db-migrate": "knex migrate:latest",
+    "db-rollback": "knex migrate:rollback",
+    "db-migrate-make": "knex migrate:make",
+    "lint": "eslint --ignore-path .gitignore .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,yml,md,json}\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ]
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "date-fns": "^2.16.1",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-jwt": "^5.3.3",
+    "express-jwt-authz": "^2.3.1",
+    "html-entities": "^1.3.1",
+    "http-errors": "^1.7.3",
+    "jwks-rsa": "^1.7.0",
+    "knex": "^0.21.5",
+    "knex-paginate": "^1.2.1",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.mapkeys": "^4.6.0",
+    "lodash.snakecase": "^4.1.1",
+    "node-fetch": "^2.6.0",
+    "node-html-parser": "^1.2.21",
+    "node-redis-scan": "^1.2.1",
+    "pg": "^7.18.2",
+    "pino": "^6.1.0",
+    "redis": "^3.0.2",
+    "util": "^0.12.1",
+    "yup": "^0.29.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-plugin-jest": "^24.1.0",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "jest-fetch-mock": "^3.0.1",
+    "lint-staged": "^10.0.7",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
+  }
+}
