@@ -1,6 +1,6 @@
 # Fap Instructor
 
-![Build Status](https://travis-ci.com/fapinstructor/fapinstructor-server.svg?branch=master)
+![Release](https://github.com/fapinstructor/fapinstructor-api/workflows/Release/badge.svg)
 
 The api that supports the fapinstructor client.
 
