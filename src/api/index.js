@@ -14,7 +14,11 @@ module.exports = {
 
     app.use(
       cors({
-        origin: ["http://localhost:3000", "https://fapinstructor.com"],
+        origin: [
+          "http://localhost:3000",
+          "https://fapinstructor.com",
+          "https://www.fapinstructor.com",
+        ],
         methods: ["GET", "POST", "PUT"],
         allowedHeaders: ["Content-Type", "Authorization"],
       }),
