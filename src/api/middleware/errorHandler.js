@@ -6,6 +6,11 @@ function errorHandler(error, req, res, _next) {
       context: {
         originalUrl: req.originalUrl,
         body: req.body,
+        headers: {
+          ...req.headers,
+          authorization: req.headers.authorization && "REDACTED",
+        },
+        user: req.user,
       },
       error,
     });
