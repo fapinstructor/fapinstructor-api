@@ -12,7 +12,7 @@ const defaultConfig = {
   client: "pg",
   connection: {
     host: DB_HOST,
-    port: DB_PORT,
+    port: 5432,
     user: DB_USER,
     password: DB_PASSWORD,
     database: DB_DATABASE,
