@@ -1,4 +1,5 @@
 const knex = require("./connection");
+const authManager = require("lib/util/authManager");
 
 const schema = {
   tableName: "profile",
@@ -15,6 +16,14 @@ async function create(id) {
   return result[0];
 }
 
+async function deleteProfile(userId) {
+  await authManager.deleteUser(userId);
+
+  await knex(schema.tableName)
+    .where({ id: userId })
+    .delete();
+}
+
 async function findById(id) {
   return knex(schema.tableName)
     .select(schema.columns)
@@ -25,5 +34,6 @@ async function findById(id) {
 module.exports = {
   schema,
   create,
+  deleteProfile,
   findById,
 };
