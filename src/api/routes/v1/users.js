@@ -37,6 +37,18 @@ router.post("/:userId/profile", async (req, res, next) => {
   res.redirect(303, "profile");
 });
 
+router.delete("/:userId/profile", async (req, res, next) => {
+  const { userId } = req.params;
+
+  if (userId !== req.user.sub) {
+    return next(createError.Forbidden());
+  }
+
+  await profileDb.deleteProfile(userId);
+
+  res.sendStatus(204);
+});
+
 router.put("/:userId/games/history/:gameId", async (req, res, next) => {
   const { userId, gameId } = req.params;
 
