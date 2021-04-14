@@ -19,14 +19,14 @@ module.exports = {
           "https://fapinstructor.com",
           "https://www.fapinstructor.com",
         ],
-        methods: ["GET", "POST", "PUT"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
       }),
     );
 
     const routes = require("./routes");
     app.use(routes);
-    app.use((req, res, next) => {
+    app.use((req, _res, next) => {
       next(createError.NotFound(`Path not found: ${req.path}`));
     });
     app.use(errorHandler);
