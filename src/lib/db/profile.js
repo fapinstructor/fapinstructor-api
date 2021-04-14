@@ -17,11 +17,13 @@ async function create(id) {
 }
 
 async function deleteProfile(userId) {
-  await authManager.deleteUser(userId);
+  await knex.transaction(async trx => {
+    await trx(schema.tableName)
+      .where({ id: userId })
+      .delete();
 
-  await knex(schema.tableName)
-    .where({ id: userId })
-    .delete();
+    await authManager.deleteUser(userId);
+  });
 }
 
 async function findById(id) {
