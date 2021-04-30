@@ -76,7 +76,7 @@ exports.seed = async knex => {
     {
       id: "67b83078-6da8-4c25-9faf-999b9a217095",
       config,
-      title: "Seed Game",
+      title: "Seed Game 1",
       profile_id: "uMa6fjxVsZn6YD7h8r2zOx7LgDWZuwrL@clients",
       is_public: true,
     },
@@ -87,17 +87,62 @@ exports.seed = async knex => {
       profile_id: "uMa6fjxVsZn6YD7h8r2zOx7LgDWZuwrL@clients",
       is_public: true,
     },
+    {
+      id: "4c18272e-9ec5-4c51-869a-eff8a714a55d",
+      config,
+      title: "Seed Game 3",
+      profile_id: "uMa6fjxVsZn6YD7h8r2zOx7LgDWZuwrL@clients",
+      is_public: true,
+    },
+    {
+      id: "543f8e41-5814-47d6-8477-11eb1582dcc3",
+      config,
+      title: "Seed Game 4",
+      profile_id: "google-oauth2|104862859801036244533",
+      is_public: true,
+    },
+    {
+      id: "b85260ac-c4d9-4a14-af80-c738fe03a848",
+      config,
+      title: "Seed Game 5",
+      profile_id: "google-oauth2|104862859801036244533",
+      is_public: true,
+    },
   ]);
 
   await knex.raw(`TRUNCATE TABLE game_tag CASCADE`);
   await knex("game_tag").insert([
     {
       game_config_id: "67b83078-6da8-4c25-9faf-999b9a217095",
-      tag_id: "seed",
+      tag_id: "red",
+    },
+    {
+      game_config_id: "67b83078-6da8-4c25-9faf-999b9a217095",
+      tag_id: "green",
+    },
+    {
+      game_config_id: "67b83078-6da8-4c25-9faf-999b9a217095",
+      tag_id: "blue",
     },
     {
       game_config_id: "f6341bb2-8fe6-48fa-8dfe-3b178bdd5dd7",
-      tag_id: "seed",
+      tag_id: "red",
+    },
+    {
+      game_config_id: "f6341bb2-8fe6-48fa-8dfe-3b178bdd5dd7",
+      tag_id: "green",
+    },
+    {
+      game_config_id: "4c18272e-9ec5-4c51-869a-eff8a714a55d",
+      tag_id: "blue",
+    },
+    {
+      game_config_id: "543f8e41-5814-47d6-8477-11eb1582dcc3",
+      tag_id: "red",
+    },
+    {
+      game_config_id: "b85260ac-c4d9-4a14-af80-c738fe03a848",
+      tag_id: "blue",
     },
   ]);
 };

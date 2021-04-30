@@ -1,3 +1,10 @@
+/**
+ * Numbers come back as strings, such as count. This will parse them back to numbers.
+ * One thing to note about this, if the count is a huge number, precision will be lost.
+ */
+const pg = require("pg");
+pg.types.setTypeParser(20, "text", parseInt);
+
 const knex = require("knex");
 const knexfile = require("../../../knexfile");
 const log = require("lib/logger").child({ db: "connection" });

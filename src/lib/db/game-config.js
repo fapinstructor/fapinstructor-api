@@ -35,12 +35,25 @@ async function create({ title, tags, config, isPublic }, userId) {
   return result;
 }
 
-async function findById(id) {
+async function findById(id, userId) {
   const query = knex(schema.tableName)
-    .select("game_config.*")
+    .select(
+      "game_config.id",
+      "game_config.config",
+      "game_config.title",
+      "game_config.stars",
+    )
     .where({ id })
     .modify(withTags)
     .first();
+
+  if (userId) {
+    query.modify(withStarred, userId);
+  } else {
+    query.modify(query => {
+      query.select(knex.raw("FALSE as starred"));
+    });
+  }
 
   return query;
 }
@@ -58,7 +71,7 @@ function withFilters(query, filters) {
   }
 
   if (filters.createdBy) {
-    query.where("profile_id", filters.createdBy);
+    query.where("game_config.profile_id", filters.createdBy);
   }
 
   if (filters.tags && filters.tags.length > 0) {
@@ -71,6 +84,35 @@ function withFilters(query, filters) {
       .as("gt");
 
     query.rightJoin(tagFilterQuery, "gt.game_config_id", "game_config.id");
+  }
+}
+
+function withStarred(query, userId, inclusive = true) {
+  const starredGames = knex("game_star")
+    .select("game_config_id", "profile_id")
+    .where({ profile_id: userId })
+    .as("game_starred");
+
+  query
+    .select(
+      knex.raw(
+        `coalesce(bool_or(game_starred.game_config_id IS NOT NULL), false) as starred`,
+      ),
+    )
+    .groupBy("game_starred.game_config_id");
+
+  if (inclusive) {
+    query.leftJoin(
+      starredGames,
+      "game_starred.game_config_id",
+      "game_config.id",
+    );
+  } else {
+    query.innerJoin(
+      starredGames,
+      "game_starred.game_config_id",
+      "game_config.id",
+    );
   }
 }
 
@@ -89,25 +131,51 @@ function withSorting(query, columns) {
 }
 
 async function findHistory(userId, paginate, filters, sort) {
-  const allGames = knex(schema.tableName)
-    .select("game_config.id", "game_config.title", "game_config.is_public")
-    .modify(withTags)
-    .as("all_games");
+  const historicGames = knex("game_history")
+    .select("game_config_id", "profile_id")
+    .where({ profile_id: userId })
+    .as("game_history");
 
-  const gameHistory = knex("game_history")
-    .select("all_games.*", "game_history.updated_at")
-    .leftJoin(allGames, "game_history.game_config_id", "all_games.id")
-    .where("game_history.profile_id", userId)
+  const games = knex(schema.tableName)
+    .select(
+      "game_config.id",
+      "game_config.title",
+      "game_config.updated_at",
+      "game_config.stars",
+    )
+    .innerJoin(historicGames, "game_history.game_config_id", "game_config.id")
+    .modify(withStarred, userId)
     .modify(withFilters, filters)
-    .modify(withSorting, sort)
-    .paginate(paginate);
+    .modify(withTags)
+    .modify(withSorting, sort);
 
-  return await gameHistory;
+  return await games.paginate(paginate);
+}
+
+async function findStarred(userId, paginate, filters, sort) {
+  const games = knex(schema.tableName)
+    .select(
+      "game_config.id",
+      "game_config.title",
+      "game_config.updated_at",
+      "game_config.stars",
+    )
+    .modify(withStarred, userId, false)
+    .modify(withFilters, filters)
+    .modify(withTags)
+    .modify(withSorting, sort);
+
+  return await games.paginate(paginate);
 }
 
 async function findAll(userId, paginate, filters, sort) {
   const games = knex(schema.tableName)
-    .select("game_config.id", "game_config.title", "game_config.updated_at")
+    .select(
+      "game_config.id",
+      "game_config.title",
+      "game_config.updated_at",
+      "game_config.stars",
+    )
     // only show private games if the current user is the creator
     .modify(query => {
       if (filters.createdBy !== userId) {
@@ -116,10 +184,13 @@ async function findAll(userId, paginate, filters, sort) {
     })
     .modify(withFilters, filters)
     .modify(withTags)
-    .modify(withSorting, sort)
-    .paginate(paginate);
+    .modify(withSorting, sort);
 
-  return await games;
+  if (userId) {
+    games.modify(withStarred, userId);
+  }
+
+  return await games.paginate(paginate);
 }
 
 module.exports = {
@@ -127,4 +198,5 @@ module.exports = {
   findById,
   findAll,
   findHistory,
+  findStarred,
 };
