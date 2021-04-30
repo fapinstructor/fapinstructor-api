@@ -65,17 +65,22 @@ router.post("/", auth(), validate(CREATE_GAME_SCHEMA), async (req, res) => {
   }
 });
 
-router.get("/:gameId", async (req, res, next) => {
-  const { gameId } = req.params;
+router.get(
+  "/:gameId",
+  auth({ credentialsRequired: false }),
+  async (req, res, next) => {
+    const userId = req.user && req.user.sub;
+    const { gameId } = req.params;
 
-  const game = await gameDb.findById(gameId);
+    const game = await gameDb.findById(gameId, userId);
 
-  if (!game) {
-    return next(createError.NotFound(`The game ${gameId} doesn't exist!`));
-  }
+    if (!game) {
+      return next(createError.NotFound(`The game ${gameId} doesn't exist!`));
+    }
 
-  res.send(game);
-});
+    res.send(game);
+  },
+);
 
 router.get(
   "/",
