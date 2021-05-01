@@ -130,6 +130,14 @@ function withSorting(query, columns) {
   });
 }
 
+function withAverageGameTime(query) {
+  query.select(
+    knex.raw(
+      "((CAST(game_config.config ->> 'minimumGameTime' AS INTEGER) + CAST(game_config.config ->> 'maximumGameTime' AS INTEGER)) / 2) as average_game_length",
+    ),
+  );
+}
+
 async function findHistory(userId, paginate, filters, sort) {
   const historicGames = knex("game_history")
     .select("game_config_id", "profile_id")
@@ -145,6 +153,7 @@ async function findHistory(userId, paginate, filters, sort) {
     )
     .innerJoin(historicGames, "game_history.game_config_id", "game_config.id")
     .modify(withStarred, userId)
+    .modify(withAverageGameTime)
     .modify(withFilters, filters)
     .modify(withTags)
     .modify(withSorting, sort);
@@ -161,6 +170,7 @@ async function findStarred(userId, paginate, filters, sort) {
       "game_config.stars",
     )
     .modify(withStarred, userId, false)
+    .modify(withAverageGameTime)
     .modify(withFilters, filters)
     .modify(withTags)
     .modify(withSorting, sort);
@@ -182,6 +192,7 @@ async function findAll(userId, paginate, filters, sort) {
         query.where("game_config.is_public", true);
       }
     })
+    .modify(withAverageGameTime)
     .modify(withFilters, filters)
     .modify(withTags)
     .modify(withSorting, sort);
