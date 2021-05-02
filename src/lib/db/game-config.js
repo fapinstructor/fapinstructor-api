@@ -133,7 +133,7 @@ function withSorting(query, columns) {
 function withAverageGameTime(query) {
   query.select(
     knex.raw(
-      "((CAST(game_config.config ->> 'minimumGameTime' AS INTEGER) + CAST(game_config.config ->> 'maximumGameTime' AS INTEGER)) / 2) as average_game_length",
+      "((game_config.config ->> 'minimumGameTime')::float + (game_config.config ->> 'maximumGameTime')::float)  / 2 as average_game_length",
     ),
   );
 }
