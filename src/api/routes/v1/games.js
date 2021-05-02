@@ -86,7 +86,7 @@ router.get(
   "/",
   auth({ credentialsRequired: false }),
   paginate,
-  sortable(["title", "updatedAt"]),
+  sortable(["stars", "title", "updatedAt", "averageGameLength"]),
   validate(GAME_FILTER_SCHEMA),
   async (req, res) => {
     const userId = req.user && req.user.sub;
