@@ -5,15 +5,28 @@ const schema = {
   columns: ["game_config_id", "profile_id", "created_at", "updated_at"],
 };
 
+async function getStarCount(gameConfigId) {
+  const stars = (
+    await knex("game_star")
+      .count("*")
+      .where({ game_config_id: gameConfigId })
+      .first()
+  ).count;
+
+  return stars;
+}
+
 async function deleteStar(gameConfigId, profileId) {
   await knex.transaction(async trx => {
     await trx(schema.tableName)
       .where({ game_config_id: gameConfigId, profile_id: profileId })
       .delete();
 
+    const stars = await getStarCount(gameConfigId);
+
     await trx("game_config")
       .where({ id: gameConfigId })
-      .decrement({ stars: 1 });
+      .update({ stars });
   });
 }
 
@@ -24,9 +37,11 @@ async function appendStar(gameConfigId, profileId) {
       profile_id: profileId,
     });
 
+    const stars = await getStarCount(gameConfigId);
+
     await trx("game_config")
       .where({ id: gameConfigId })
-      .increment({ stars: 1 });
+      .update({ stars });
   });
 }
 
