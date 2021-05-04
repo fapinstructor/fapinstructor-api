@@ -15,7 +15,11 @@ router.get("/:userId/profile", async (req, res, next) => {
   const { userId } = req.params;
 
   if (userId !== req.user.sub) {
-    return next(createError.Forbidden());
+    return next(
+      createError.Forbidden(
+        "Ensure the userId matches the Authorization sub id",
+      ),
+    );
   }
 
   const profile = await profileDb.findById(userId);

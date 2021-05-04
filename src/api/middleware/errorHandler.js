@@ -5,6 +5,7 @@ function errorHandler(error, req, res, _next) {
     log.error({
       context: {
         originalUrl: req.originalUrl,
+        method: req.method,
         body: req.body,
         headers: {
           ...req.headers,
@@ -12,7 +13,12 @@ function errorHandler(error, req, res, _next) {
         },
         user: req.user,
       },
-      error,
+      error: {
+        name: error.name,
+        message: error.message,
+        status: error.status,
+        stack: error.stack,
+      },
     });
   }
 

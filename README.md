@@ -8,7 +8,7 @@ The api that supports the fapinstructor client.
 
 1. Configure your `.env` file under server. Use `.env.example` as a reference
 2. Start the docker containers `make start`. This will build and start the docker container with an attached log watcher.
-3. Application is ready for HTTP requests `localhost:3000/`
+3. Application is ready for HTTP requests `localhost:9000/`
 
 ## Debugging
 
