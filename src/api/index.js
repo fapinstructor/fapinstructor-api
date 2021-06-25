@@ -15,6 +15,7 @@ module.exports = {
     app.use(
       cors({
         origin: [
+          "http://localhost",
           "http://localhost:3000",
           "https://fapinstructor.com",
           "https://www.fapinstructor.com",
