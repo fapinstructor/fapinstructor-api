@@ -1,5 +1,9 @@
 exports.seed = async knex => {
-  await knex.raw("TRUNCATE TABLE profile CASCADE");
+  const existingRecords = await knex("profile");
+
+  if (existingRecords.length > 0) {
+    return;
+  }
 
   await knex("profile").insert([
     { id: "google-oauth2|104862859801036244533" },

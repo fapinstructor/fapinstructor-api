@@ -1,5 +1,9 @@
 exports.seed = async knex => {
-  await knex.raw(`TRUNCATE TABLE game_history CASCADE`);
+  const existingRecords = await knex("game_history");
+
+  if (existingRecords.length > 0) {
+    return;
+  }
 
   await knex("game_history").insert([
     {

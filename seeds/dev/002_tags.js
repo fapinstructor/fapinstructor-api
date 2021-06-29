@@ -1,5 +1,9 @@
 exports.seed = async knex => {
-  await knex.raw("TRUNCATE TABLE tag CASCADE");
+  const existingRecords = await knex("tag");
+
+  if (existingRecords.length > 0) {
+    return;
+  }
 
   await knex("tag").insert([{ id: "red" }, { id: "green" }, { id: "blue" }]);
 };
