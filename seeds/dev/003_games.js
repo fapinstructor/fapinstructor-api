@@ -70,7 +70,11 @@ const config = {
 };
 
 exports.seed = async knex => {
-  await knex.raw(`TRUNCATE TABLE game_config CASCADE`);
+  const existingRecords = await knex("game_config");
+
+  if (existingRecords.length > 0) {
+    return;
+  }
 
   await knex("game_config").insert([
     {
