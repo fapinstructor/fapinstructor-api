@@ -1,10 +1,11 @@
 const { stripQueryString } = require("lib/util/regex");
 const fetchImgur = require("./fetchImgur");
-const fetchGfycat = require("./fetchGfycat");
+const { fetchGfycat, GfycatDomain } = require("./fetchGfycat");
 
 const fetchers = {
   "imgur.com": fetchImgur,
-  "gfycat.com": fetchGfycat,
+  "gfycat.com": fetchGfycat(GfycatDomain.gfycat),
+  "redgifs.com": fetchGfycat(GfycatDomain.redgif),
   "redd.it": url => Promise.resolve(url),
 };
 

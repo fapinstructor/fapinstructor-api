@@ -204,6 +204,24 @@ async function validateSubreddit(subreddit) {
   }
 }
 
+function parseGallery(media_metadata) {
+  const gallery = Object.values(media_metadata).filter(
+    ({ status }) => status === "valid",
+  );
+
+  const galleryLinks = gallery
+    .map(({ e: imageType, s: image }) => {
+      if (imageType === "Image") {
+        // Get the image and remove the amp; occurrences within it
+        return image && image.u && image.u.replace(/amp;/g, "");
+      }
+    })
+    // Remove any undefined entries.
+    .filter(link => link);
+
+  return galleryLinks;
+}
+
 async function fetchPosts({ subreddit, after }) {
   const res = await fetch(
     `${REDDIT_DOMAIN}/r/${subreddit}/hot/.json?limit=100&after=${after}`,
@@ -218,25 +236,33 @@ async function fetchPosts({ subreddit, after }) {
   const filteredPosts = res.data.children
     .map(({ data }) => data)
     .filter(({ is_self }) => !is_self)
-    .filter(({ stickied }) => !stickied);
+    .filter(({ stickied }) => !stickied)
+    // Remove poorly scored posts.
+    .filter(({ score }) => score >= 0);
 
-  const links = filteredPosts.map(({ permalink, url, media }) => {
-    let direct_link;
+  const links = filteredPosts.map(
+    ({ permalink, url, media, is_gallery, media_metadata }) => {
+      if (is_gallery && media_metadata) {
+        const galleryLinks = parseGallery(media_metadata);
 
-    const mediaKeys = media ? Object.keys(media) : [];
-    if (mediaKeys.includes("reddit_video")) {
-      direct_link = media.reddit_video.fallback_url;
-    } else {
-      direct_link = url;
-    }
+        return galleryLinks.map(galleryLink => ({
+          source_link: permalink,
+          direct_link: galleryLink,
+        }));
+      } else {
+        const mediaKeys = media ? Object.keys(media) : [];
 
-    return {
-      source_link: permalink,
-      direct_link,
-    };
-  });
+        return {
+          source_link: permalink,
+          direct_link: mediaKeys.includes("reddit_video")
+            ? media.reddit_video.fallback_url
+            : url,
+        };
+      }
+    },
+  );
 
-  return { links, after };
+  return { links: links.flat(), after };
 }
 
 module.exports = { scrapSubreddits, getLinks };
