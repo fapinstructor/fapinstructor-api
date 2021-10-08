@@ -3,6 +3,7 @@ const log = require("lib/logger");
 const createValidateMiddleware = schema => async (req, res, next) => {
   const options = {
     abortEarly: false,
+    stripUnknown: true,
   };
 
   try {
