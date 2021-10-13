@@ -35,7 +35,6 @@ const AvailableTasks = [
   "overhandGrip",
   "bothHands",
   "handsOff",
-  "gripAdjustments",
   "bindCockBalls",
   "rubberBands",
   "ballSlaps",
@@ -128,6 +127,7 @@ const GAME_CONFIG_SCHEMA = yup
             "Maximum game duration cannot be greater than 12 hours.",
           ),
       }),
+    postOrgasmTorture: yup.boolean().required(),
     postOrgasmTortureDuration: yup
       .object()
       .default(undefined)
@@ -184,6 +184,7 @@ const GAME_CONFIG_SCHEMA = yup
             "Maximum stroke speed cannot exceed the minimum stroke speed.",
           ),
       }),
+    gripAdjustments: yup.boolean().required(),
     initialGripStrength: yup
       .number()
       .required()
@@ -270,11 +271,11 @@ const GAME_CONFIG_SCHEMA = yup
           return sum(Object.values(finaleProbabilities)) === 100;
         },
       ),
-    /* tasks: yup */
-    /*   .array() */
-    /*   .min(0, "Selected tasks cannot be below 0.") */
-    /*   .of(yup.string().oneOf(AvailableTasks)) */
-    /*   .unique(), */
+    tasks: yup
+      .array()
+      .min(0, "Selected tasks cannot be below 0.")
+      .of(yup.string().oneOf(AvailableTasks))
+      .unique(),
   });
 module.exports = {
   GAME_CONFIG_SCHEMA,

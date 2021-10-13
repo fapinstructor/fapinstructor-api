@@ -111,13 +111,16 @@ function mapOldConfigToNewConfig(oldConfig) {
         oldConfig.minimumOrgasms || 1,
       ),
     },
+    gripAdjustments: oldConfig.tasks.gripAdjustments,
     initialGripStrength: oldConfig.initialGripStrength,
     defaultStrokeStyle: defaultStrokeStyle,
     actionFrequency: oldConfig.actionFrequency,
-    tasks: oldConfig.tasks,
-    /* tasks: Object.entries(oldConfig.tasks) */
-    /*   .filter((_taskKey, enabled) => enabled) */
-    /*   .map(taskKey => taskKey), */
+    tasks: Object.entries(oldConfig.tasks)
+      .filter(
+        ([taskKey, enabled]) =>
+          enabled && !["gripAdjustments", "pickYourPoison"].includes(taskKey),
+      )
+      .map(([taskKey]) => taskKey),
   };
 
   if (newConfig.subreddits.length === 0) {
@@ -133,6 +136,7 @@ async function validateGameConfig(config) {
 
 exports.up = async function(knex) {
   const result = await knex("game_config").select("id", "config");
+  const errors = [];
 
   await knex.transaction(async transaction => {
     for (let i = 0; i < result.length; i++) {
@@ -150,6 +154,7 @@ exports.up = async function(knex) {
             })
             .where({ id });
         } catch (error) {
+          errors.push(id);
           console.error(`Failed to migrate ${id}:`, error);
         }
       } catch (error) {
@@ -159,6 +164,10 @@ exports.up = async function(knex) {
       }
     }
   });
+
+  if (errors.length > 0) {
+    console.error("Failed to migrate the following games:", errors);
+  }
 };
 
 exports.down = async function(knex) {};
