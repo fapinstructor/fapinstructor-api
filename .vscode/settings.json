@@ -1,5 +1,6 @@
 {
   "files.exclude": {
     "yarn.lock": true
-  }
+  },
+  "cSpell.words": ["precum"]
 }

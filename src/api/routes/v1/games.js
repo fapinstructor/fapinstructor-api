@@ -7,6 +7,9 @@ const paginate = require("api/middleware/paginate");
 const sortable = require("api/middleware/sortable");
 const validate = require("api/middleware/validate");
 const { isAlpha } = require("lib/util/regex");
+const {
+  GAME_CONFIG_SCHEMA,
+} = require("api/routes/v1/schemas/GAME_CONFIG_SCHEMA");
 
 const router = Router();
 
@@ -30,7 +33,7 @@ const CREATE_GAME_SCHEMA = {
       )
       .required()
       .dedupe(),
-    config: yup.object().required(),
+    config: GAME_CONFIG_SCHEMA,
     isPublic: yup.boolean().required(),
   }),
 };
@@ -86,7 +89,7 @@ router.get(
   "/",
   auth({ credentialsRequired: false }),
   paginate,
-  sortable(["stars", "title", "updatedAt", "averageGameLength"]),
+  sortable(["stars", "title", "updatedAt", "averageGameDuration"]),
   validate(GAME_FILTER_SCHEMA),
   async (req, res) => {
     const userId = req.user && req.user.sub;
