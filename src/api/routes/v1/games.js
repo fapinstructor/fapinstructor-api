@@ -14,28 +14,50 @@ const {
 const router = Router();
 
 const CREATE_GAME_SCHEMA = {
-  body: yup.object().shape({
-    title: yup
-      .string()
-      .min(5)
-      .max(50)
-      .required(),
-    tags: yup
-      .array()
-      .of(
-        yup
-          .string()
-          .matches(isAlpha, "Only letters and spaces are permitted")
-          .min(3, "A tag must be at least 3 characters long")
-          .max(30)
-          .lowercase()
-          .required(),
-      )
-      .required()
-      .dedupe(),
-    config: GAME_CONFIG_SCHEMA,
-    isPublic: yup.boolean().required(),
-  }),
+  body: yup
+    .object()
+    .required()
+    .shape({
+      title: yup
+        .string()
+        .min(
+          5,
+          ({ min }) => `The title must contain at least ${min} characters.`,
+        )
+        .max(
+          50,
+          ({ max }) =>
+            `The title cannot be greater than ${max} characters long.`,
+        )
+        .required("Please enter a title."),
+      tags: yup
+        .array()
+        .required()
+        .of(
+          yup
+            .string()
+            .required()
+            .matches(
+              isAlpha,
+              "Only lowercase letters and spaces are permitted.",
+            )
+            .min(
+              3,
+              ({ min }) => `A tag must be at least ${min} characters long.`,
+            )
+            .max(
+              30,
+              ({ max }) =>
+                `A tag cannot be greater than ${max} characters long.`,
+            )
+            .lowercase()
+            .required(),
+        )
+        .min(1, ({ min }) => `You must specify at least ${min} tag.`)
+        .dedupe(),
+      isPublic: yup.boolean().required(),
+      config: GAME_CONFIG_SCHEMA,
+    }),
 };
 
 const GAME_FILTER_SCHEMA = {
