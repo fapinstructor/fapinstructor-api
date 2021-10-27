@@ -6,7 +6,7 @@ const auth = require("api/middleware/auth");
 const paginate = require("api/middleware/paginate");
 const sortable = require("api/middleware/sortable");
 const validate = require("api/middleware/validate");
-const { isAlpha } = require("lib/util/regex");
+const { isAlpha, isUuid } = require("lib/util/regex");
 const {
   GAME_CONFIG_SCHEMA,
 } = require("api/routes/v1/schemas/GAME_CONFIG_SCHEMA");
@@ -72,6 +72,14 @@ const GAME_FILTER_SCHEMA = {
   }),
 };
 
+const GET_GAME_SCHEMA = {
+  params: yup.object().shape({
+    gameId: yup
+      .string()
+      .matches(isUuid, ({ value }) => `game id '${value}' is an invalid uuid.`),
+  }),
+};
+
 router.post("/", auth(), validate(CREATE_GAME_SCHEMA), async (req, res) => {
   const userId = req.user.sub;
   const game = req.body;
@@ -93,6 +101,7 @@ router.post("/", auth(), validate(CREATE_GAME_SCHEMA), async (req, res) => {
 router.get(
   "/:gameId",
   auth({ credentialsRequired: false }),
+  validate(GET_GAME_SCHEMA),
   async (req, res, next) => {
     const userId = req.user && req.user.sub;
     const { gameId } = req.params;
