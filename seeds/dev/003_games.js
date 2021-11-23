@@ -1,11 +1,5 @@
 const config = {
-  tasks: [
-    "dominant",
-    "doubleStrokes",
-    "halvedStrokes",
-    "teasingStrokes",
-    "gripAdjustments",
-  ],
+  tasks: ["dominant", "doubleStrokes", "halvedStrokes", "teasingStrokes"],
   orgasms: { max: 1, min: 1 },
   imageType: ["PICTURE", "GIF", "VIDEO"],
   subreddits: [
@@ -19,6 +13,7 @@ const config = {
     "anal",
     "creampies",
   ],
+  gripAdjustments: true,
   strokeSpeed: { max: 4, min: 0.25 },
   edgeCooldown: 10,
   gameDuration: { max: 15, min: 5 },
