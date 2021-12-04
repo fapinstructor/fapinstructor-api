@@ -158,7 +158,7 @@ async function findHistory(userId, paginate, filters, sort) {
     .modify(withTags)
     .modify(withSorting, sort);
 
-  return await games.paginate(paginate);
+  return await games.paginate({ ...paginate, isLengthAware: true });
 }
 
 async function findStarred(userId, paginate, filters, sort) {
@@ -175,7 +175,7 @@ async function findStarred(userId, paginate, filters, sort) {
     .modify(withTags)
     .modify(withSorting, sort);
 
-  return await games.paginate(paginate);
+  return await games.paginate({ ...paginate, isLengthAware: true });
 }
 
 async function findAll(userId, paginate, filters, sort) {
@@ -201,7 +201,7 @@ async function findAll(userId, paginate, filters, sort) {
     games.modify(withStarred, userId);
   }
 
-  return await games.paginate(paginate);
+  return await games.paginate({ ...paginate, isLengthAware: true });
 }
 
 module.exports = {
