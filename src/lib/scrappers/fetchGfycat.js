@@ -1,4 +1,10 @@
-const validateFetchResponse = require("./validateFetchResponse");
+const Axios = require("axios");
+
+const axios = Axios.create();
+
+axios.interceptors.response.use(response => {
+  return response.data;
+});
 
 const GfycatDomain = {
   gfycat: "gfycat",
@@ -10,9 +16,9 @@ const fetchGfycat = domain => url => {
   if (id.includes("-")) {
     id = id.split("-")[0];
   }
-  return fetch(`https://api.${domain}.com/v1/gfycats/${id}`)
-    .then(validateFetchResponse)
-    .then(res => res.json())
+
+  return axios
+    .get(`https://api.${domain}.com/v1/gfycats/${id}`)
     .then(
       ({ gfyItem }) => gfyItem.webmUrl || gfyItem.mp4Url || gfyItem.mobileUrl,
     );
