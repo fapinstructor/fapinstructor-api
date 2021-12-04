@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "auth0": "^2.33.0",
+    "axios": "^0.24.0",
     "cors": "^2.8.5",
     "date-fns": "^2.16.1",
     "express": "^4.17.1",

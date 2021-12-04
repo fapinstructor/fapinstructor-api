@@ -155,7 +155,11 @@ async function resolveLinks(links) {
                 })),
             )
             .catch(error => {
-              unresolvedLinks.push({ link, error: error.toString() });
+              // Don't log 400 errors. This usually happens when the file is removed from targeted site.
+              const is400SeriesCode = error.response.status.test(/4[0-9]{2}/);
+              if (!is400SeriesCode) {
+                unresolvedLinks.push({ link, error: error.toString() });
+              }
             }),
       ),
     )
