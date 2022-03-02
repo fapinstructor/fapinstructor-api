@@ -217,7 +217,7 @@ function parseGallery(media_metadata) {
     .map(({ e: imageType, s: image }) => {
       if (imageType === "Image") {
         // Get the image and remove the amp; occurrences within it
-        return image && image.u && image.u.replace(/amp;/g, "");
+        return image && image.u && image.u.replace(/amp;/g, "").replace("preview", "i");
       }
     })
     // Remove any undefined entries.
