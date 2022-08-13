@@ -1,4 +1,4 @@
-FROM node:12-slim
+FROM node:18-slim
 
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
@@ -13,7 +13,7 @@ EXPOSE $PORT 9229 9230
 
 # install packages
 RUN apt-get update \
-    && apt-get install -q -y --no-install-recommends curl gnupg
+  && apt-get install -q -y --no-install-recommends curl gnupg
 
 # install the latest yarnpkg
 RUN curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
