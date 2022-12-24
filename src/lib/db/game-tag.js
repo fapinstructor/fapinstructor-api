@@ -9,7 +9,9 @@ const addTagsToGame = trx => async (gameConfigId, tags) => {
   const existingTags = (await tag.findIn(tags)).map(({ id }) => id);
   const newTags = tags.filter(value => !existingTags.includes(value));
 
-  await tag.createTags({ trx, tags: newTags });
+  if (newTags.length > 0) {
+    await tag.createTags({ trx, tags: newTags });
+  }
 
   const result = await trx(schema.tableName)
     .insert(
