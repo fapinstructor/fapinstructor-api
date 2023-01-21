@@ -2,6 +2,7 @@ const config = {
   tasks: ["dominant", "doubleStrokes", "halvedStrokes", "teasingStrokes"],
   orgasms: { max: 1, min: 1 },
   imageType: ["PICTURE", "GIF", "VIDEO"],
+  redgifs: ["gonewild"],
   subreddits: [
     "gonewild",
     "nsfw",

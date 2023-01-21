@@ -59,9 +59,34 @@ const GAME_CONFIG_SCHEMA = yup
   .object()
   .required()
   .shape({
+    redgifs: yup
+      .array()
+      .of(
+        yup
+          .string()
+          .trim()
+          .lowercase()
+          .required()
+          .min(
+            3,
+            ({ value, min }) =>
+              `Redgif tags '${value}' cannot be shorter than ${min} characters.`,
+          )
+          .max(
+            21,
+            ({ value, max }) =>
+              `Redgif tags '${value}' cannot be longer than ${max} characters.`,
+          )
+          .matches(
+            validSubreddit,
+            ({ value }) => `Redgif tag '${value}' is an invalid name.`,
+          ),
+      )
+      .dedupe()
+      .unique()
+      .max(10, ({ max }) => `Cannot specify more than ${max} Redgif tags.`),
     subreddits: yup
       .array()
-      .required()
       .of(
         yup
           .string()
@@ -85,7 +110,6 @@ const GAME_CONFIG_SCHEMA = yup
       )
       .dedupe()
       .unique()
-      .min(1, ({ min }) => `Please specify at least ${min} subreddit.`)
       .max(200, ({ max }) => `Cannot specify more than ${max} subreddits.`),
     actionFrequency: yup
       .number()
