@@ -19,6 +19,7 @@ module.exports = {
           "http://localhost:3000",
           "https://fapinstructor.com",
           "https://www.fapinstructor.com",
+          "https://fapchallenger.com",
         ],
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
