@@ -17,6 +17,7 @@ module.exports = {
         origin: [
           "http://localhost",
           "http://localhost:3000",
+          "http://localhost:5173",
           "https://fapinstructor.com",
           "https://www.fapinstructor.com",
           "https://fapchallenger.com",
