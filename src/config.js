@@ -18,6 +18,7 @@ const {
   AUTH0_DOMAIN,
   AUTH0_CLIENT_ID,
   AUTH0_CLIENT_SECRET,
+  WHITE_LIST,
 } = process.env;
 
 module.exports = {
@@ -37,4 +38,5 @@ module.exports = {
   AUTH0_DOMAIN,
   AUTH0_CLIENT_ID,
   AUTH0_CLIENT_SECRET,
+  WHITE_LIST,
 };
