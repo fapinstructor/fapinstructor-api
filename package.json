@@ -2,7 +2,7 @@
   "name": "fapinstructor-api",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "src/api/index.js",
   "scripts": {
     "test": "jest test",
     "db-seed": "knex seed:run",
@@ -10,7 +10,8 @@
     "db-rollback": "knex migrate:rollback",
     "db-migrate-make": "knex migrate:make",
     "lint": "eslint --ignore-path .gitignore .",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,yml,md,json}\""
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,yml,md,json}\"",
+    "dev": "node src/api/index.js"
   },
   "husky": {
     "hooks": {
@@ -33,6 +34,7 @@
     "axios": "^0.24.0",
     "cors": "^2.8.5",
     "date-fns": "^2.16.1",
+    "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-jwt": "^5.3.3",

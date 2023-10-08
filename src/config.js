@@ -1,3 +1,6 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const {
   NODE_ENV,
   CACHE_HOST,

@@ -2,8 +2,8 @@
 
 global.fetch = require("node-fetch");
 
-const log = require("lib/logger");
-const app = require("api").start();
+const log = require("pino")();
+const app = require("../api").start();
 
 // Constants
 const PORT = process.env.PORT || 8080;

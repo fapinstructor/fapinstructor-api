@@ -1,8 +1,8 @@
 const differenceInDays = require("date-fns/differenceInDays");
-const log = require("lib/logger");
+const log = require("pino")();
 const knex = require("./connection");
-const { resolveDirectLink } = require("lib/scrappers");
-const { getMediaType } = require("lib/media-type");
+const { resolveDirectLink } = require("../scrappers");
+const { getMediaType } = require("../media-type");
 
 const REDDIT_DOMAIN = "https://www.reddit.com";
 const DESIRED_MINIMUM_POSTS = 100;
@@ -217,7 +217,11 @@ function parseGallery(media_metadata) {
     .map(({ e: imageType, s: image }) => {
       if (imageType === "Image") {
         // Get the image and remove the amp; occurrences within it
-        return image && image.u && image.u.replace(/amp;/g, "").replace("preview", "i");
+        return (
+          image &&
+          image.u &&
+          image.u.replace(/amp;/g, "").replace("preview", "i")
+        );
       }
     })
     // Remove any undefined entries.

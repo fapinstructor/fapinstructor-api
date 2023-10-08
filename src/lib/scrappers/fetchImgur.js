@@ -1,6 +1,6 @@
-const log = require("lib/logger");
+const log = require("pino")();
 const validateFetchResponse = require("./validateFetchResponse");
-const { IMGUR_API_KEY } = require("config");
+const { IMGUR_API_KEY } = require("../../config");
 
 const options = {
   headers: {

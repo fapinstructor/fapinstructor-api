@@ -1,4 +1,4 @@
-const { stripQueryString } = require("lib/util/regex");
+const { stripQueryString } = require("../util/regex");
 const fetchImgur = require("./fetchImgur");
 const { fetchGfycat, GfycatDomain } = require("./fetchGfycat");
 

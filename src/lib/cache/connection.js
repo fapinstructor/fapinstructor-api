@@ -1,6 +1,6 @@
 const redis = require("redis");
-const { CACHE_HOST, CACHE_PORT } = require("config");
-const log = require("lib/logger").child({ cache: "connection" });
+const { CACHE_HOST, CACHE_PORT } = require("../../config");
+const log = require("pino")().child({ cache: "connection" });
 
 const connection = redis.createClient(CACHE_PORT, CACHE_HOST);
 

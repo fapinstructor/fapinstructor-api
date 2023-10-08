@@ -1,13 +1,13 @@
 const createError = require("http-errors");
 const { Router } = require("express");
 const { GAME_FILTER_SCHEMA } = require("./games");
-const gameDb = require("lib/db/game-config");
-const gameHistoryDb = require("lib/db/game-history");
-const gameStarDb = require("lib/db/game-star");
-const profileDb = require("lib/db/profile");
-const paginate = require("api/middleware/paginate");
-const sortable = require("api/middleware/sortable");
-const validate = require("api/middleware/validate");
+const gameDb = require("../../../lib/db/game-config");
+const gameHistoryDb = require("../../../lib/db/game-history");
+const gameStarDb = require("../../../lib/db/game-star");
+const profileDb = require("../../../lib/db/profile");
+const paginate = require("../../middleware/paginate");
+const sortable = require("../../middleware/sortable");
+const validate = require("../../middleware/validate");
 
 const router = Router();
 

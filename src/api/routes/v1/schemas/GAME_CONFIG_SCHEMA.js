@@ -1,6 +1,6 @@
 const yup = require("yup");
-const { validSubreddit } = require("lib/util/regex");
-const { sum } = require("lib/util/math");
+const { validSubreddit } = require("../../../../lib/util/regex");
+const { sum } = require("../../../../lib/util/math");
 
 const MediaType = {
   Picture: "PICTURE",

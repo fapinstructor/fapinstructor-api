@@ -1,5 +1,5 @@
 const http = require("http");
-const log = require("lib/logger");
+const log = require("pino")();
 
 const options = {
   timeout: 2000,

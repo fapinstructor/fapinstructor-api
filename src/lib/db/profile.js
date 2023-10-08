@@ -1,5 +1,5 @@
 const knex = require("./connection");
-const authManager = require("lib/util/authManager");
+const authManager = require("../util/authManager");
 
 const schema = {
   tableName: "profile",

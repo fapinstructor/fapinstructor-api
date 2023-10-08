@@ -1,15 +1,13 @@
 const yup = require("yup");
 const createError = require("http-errors");
 const { Router } = require("express");
-const gameDb = require("lib/db/game-config");
-const auth = require("api/middleware/auth");
-const paginate = require("api/middleware/paginate");
-const sortable = require("api/middleware/sortable");
-const validate = require("api/middleware/validate");
-const { isAlpha, isUuid } = require("lib/util/regex");
-const {
-  GAME_CONFIG_SCHEMA,
-} = require("api/routes/v1/schemas/GAME_CONFIG_SCHEMA");
+const gameDb = require("../../../lib/db/game-config");
+const auth = require("../../middleware/auth");
+const paginate = require("../../middleware/paginate");
+const sortable = require("../../middleware/sortable");
+const validate = require("../../middleware/validate");
+const { isAlpha, isUuid } = require("../../../lib/util/regex");
+const { GAME_CONFIG_SCHEMA } = require("./schemas/GAME_CONFIG_SCHEMA");
 
 const router = Router();
 

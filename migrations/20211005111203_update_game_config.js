@@ -1,8 +1,8 @@
-require("lib/validation/setupYup");
-const { validSubreddit } = require("lib/util/regex");
+require("../src/lib/validation/setupYup");
+const { validSubreddit } = require("../src/lib/util/regex");
 const {
   GAME_CONFIG_SCHEMA,
-} = require("api/routes/v1/schemas/GAME_CONFIG_SCHEMA");
+} = require("../src/api/routes/v1/schemas/GAME_CONFIG_SCHEMA");
 
 const MAX_GAME_DURATION = 60 * 12; // 12 hours
 
