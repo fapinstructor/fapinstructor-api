@@ -11,6 +11,7 @@ const {
   DB_HOST,
   DB_PORT,
   DB_DATABASE,
+  WHITE_LIST,
   AUTH_JWT_AUDIENCE,
   AUTH_JWT_ISSUER,
   AUTH_JWKS_URI,
@@ -18,7 +19,6 @@ const {
   AUTH0_DOMAIN,
   AUTH0_CLIENT_ID,
   AUTH0_CLIENT_SECRET,
-  WHITE_LIST,
 } = process.env;
 
 module.exports = {
@@ -31,6 +31,7 @@ module.exports = {
   DB_HOST,
   DB_PORT,
   DB_DATABASE,
+  WHITE_LIST,
   AUTH_JWT_AUDIENCE,
   AUTH_JWT_ISSUER,
   AUTH_JWKS_URI,
@@ -38,5 +39,4 @@ module.exports = {
   AUTH0_DOMAIN,
   AUTH0_CLIENT_ID,
   AUTH0_CLIENT_SECRET,
-  WHITE_LIST,
 };
