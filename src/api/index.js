@@ -6,16 +6,23 @@ require("../lib/validation/setupYup");
 const errorHandler = require("./middleware/errorHandler");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
-const { WHITE_LIST } = require("../../src/config");
 
 module.exports = {
   start() {
     const app = express();
     app.use(jsonParser);
-    const whitelist = WHITE_LIST.split(",");
+
     app.use(
       cors({
-        origin: whitelist,
+        origin: [
+          "http://localhost",
+          "http://localhost:3000",
+          "http://localhost:5173",
+          "https://fapinstructor.com",
+          "https://www.fapinstructor.com",
+          "https://fapchallenger.com",
+          "https://fapinstructor.onrender.com",
+        ],
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
       }),
