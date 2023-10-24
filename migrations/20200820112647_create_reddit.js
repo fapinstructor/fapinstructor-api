@@ -22,9 +22,15 @@ exports.up = async function(knex) {
     // index
     t.index("subreddit_id");
   });
+
+  await knex.schema.createTable("red_gifs_token", t => {
+    t.text("name");
+    t.text("token");
+  });
 };
 
 exports.down = async function(knex) {
   await knex.schema.dropTable("subreddit_media_content");
   await knex.schema.dropTable("subreddit");
+  await knex.schema.dropTable("red_gifs_token");
 };

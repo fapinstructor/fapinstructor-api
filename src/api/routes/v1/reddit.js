@@ -3,6 +3,7 @@ const yup = require("yup");
 const validate = require("../../middleware/validate");
 const { validSubreddit } = require("../../../lib/util/regex");
 const { getLinks, scrapSubreddits } = require("../../../lib/db/reddit");
+const { resolveRedgifsLinks } = require("./redgifs");
 const { MEDIA_TYPE } = require("../../../lib/media-type");
 
 // TODO: Could probably extract this into some sort of enum schema factory
@@ -57,17 +58,24 @@ router.get("/", validate(REDDIT_SCHEMA), async (req, res) => {
   );
 
   let links = [];
+  let redGifsLinks = [];
+  let redditLinks = [];
   if (validSubreddits.length > 0) {
     links = await getLinks({
       subreddits: validSubreddits,
       mediaTypes: mediaTypes && getEnumValues(MEDIA_TYPE, mediaTypes),
       limit,
     });
+    redGifsLinks = await resolveRedgifsLinks(
+      links.filter(link => link.directLink.includes("redgifs")),
+    );
+
+    redditLinks = links.filter(link => !link.directLink.includes("redgifs"));
   }
 
   res.send({
     failedSubreddits,
-    links,
+    links: [...redditLinks, ...redGifsLinks],
   });
 });
 
