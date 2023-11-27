@@ -159,6 +159,10 @@ function isGif(extension) {
   return gifs.includes(extension);
 }
 
+function isRedGif(file) {
+  return file.includes("redgifs.com");
+}
+
 const MEDIA_TYPE = {
   UNKNOWN: 0,
   PICTURE: 1,
@@ -177,6 +181,9 @@ function getMediaType(file) {
   }
   if (isGif(extension)) {
     return MEDIA_TYPE.GIF;
+  }
+  if (isRedGif(file)) {
+    return MEDIA_TYPE.VIDEO;
   }
 
   throw new Error(`Unsupported media type: ${file}`);

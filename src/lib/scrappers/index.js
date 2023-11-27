@@ -5,7 +5,7 @@ const { fetchGfycat, GfycatDomain } = require("./fetchGfycat");
 const fetchers = {
   "imgur.com": fetchImgur,
   "gfycat.com": fetchGfycat(GfycatDomain.gfycat),
-  "redgifs.com": fetchGfycat(GfycatDomain.redgif),
+  "redgifs.com": url => Promise.resolve(url),
   "redd.it": url => Promise.resolve(url),
 };
 
