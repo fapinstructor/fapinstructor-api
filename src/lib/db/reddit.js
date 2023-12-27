@@ -239,7 +239,7 @@ async function fetchPosts({ subreddit, after }) {
         JSON.parse(res);
       } catch {
         const text = await res.text();
-        log.error("Expected JSON but received text", text);
+        log.error(`Expected JSON but received text: ${text}`);
       }
       return res;
     })
