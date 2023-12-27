@@ -6,7 +6,7 @@ const { getMediaType } = require("lib/media-type");
 
 const REDDIT_DOMAIN = "https://www.reddit.com";
 const DESIRED_MINIMUM_POSTS = 100;
-const UPDATE_FREQUENCY_IN_DAYS = 3;
+const UPDATE_FREQUENCY_IN_DAYS = 10;
 
 async function scrapSubreddits(subreddits) {
   const results = await Promise.allSettled(
