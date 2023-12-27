@@ -234,11 +234,12 @@ async function fetchPosts({ subreddit, after }) {
   const res = await fetch(
     `${REDDIT_DOMAIN}/r/${subreddit}/hot/.json?limit=100&after=${after}`,
   )
-    .then(res => {
+    .then(async res => {
       try {
         JSON.parse(res);
       } catch {
-        log.error(res.text());
+        const text = await res.text();
+        log.error("Expected JSON but received text", text);
       }
       return res;
     })
