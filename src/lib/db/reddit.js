@@ -12,7 +12,6 @@ async function scrapSubreddits(subreddits) {
   const results = await Promise.allSettled(
     subreddits.map(subreddit =>
       scrapSubreddit(subreddit).catch(error => {
-        log.error(error);
         return Promise.reject({ subreddit, error });
       }),
     ),
@@ -234,7 +233,16 @@ function parseGallery(media_metadata) {
 async function fetchPosts({ subreddit, after }) {
   const res = await fetch(
     `${REDDIT_DOMAIN}/r/${subreddit}/hot/.json?limit=100&after=${after}`,
-  ).then(res => res.json());
+  )
+    .then(res => {
+      try {
+        JSON.parse(res);
+      } catch {
+        log.error(res.text());
+      }
+      return res;
+    })
+    .then(res => res.json());
 
   if (res.error) {
     throw new Error(res);
