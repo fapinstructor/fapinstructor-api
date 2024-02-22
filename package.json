@@ -4,6 +4,8 @@
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
+    "start": "node ./src/bin/www",
+    "build": "yarn",
     "test": "jest test",
     "db-seed": "knex seed:run",
     "db-migrate": "knex migrate:latest",
