@@ -7,7 +7,7 @@ pg.types.setTypeParser(20, "text", parseInt);
 
 const knex = require("knex");
 const knexfile = require("../../../knexfile");
-const log = require("lib/logger").child({ db: "connection" });
+const log = require("pino")().child({ db: "connection" });
 
 // knex extensions
 const { attachPaginate } = require("knex-paginate");

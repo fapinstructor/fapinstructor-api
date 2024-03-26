@@ -1,9 +1,10 @@
 const { Router } = require("express");
 const yup = require("yup");
-const validate = require("api/middleware/validate");
-const { validSubreddit } = require("lib/util/regex");
-const redditRepository = require("lib/db/reddit");
-const { MEDIA_TYPE } = require("lib/media-type");
+const validate = require("../../middleware/validate");
+const { validSubreddit } = require("../../../lib/util/regex");
+const { getLinks, scrapSubreddits } = require("../../../lib/db/reddit");
+const { resolveRedgifsLinks } = require("./redgifs");
+const { MEDIA_TYPE } = require("../../../lib/media-type");
 
 // TODO: Could probably extract this into some sort of enum schema factory
 const getEnumKeys = enumType =>
@@ -50,24 +51,31 @@ const REDDIT_SCHEMA = {
 router.get("/", validate(REDDIT_SCHEMA), async (req, res) => {
   const { subreddits, mediaTypes, limit } = req.query;
 
-  const failedSubreddits = await redditRepository.scrapSubreddits(subreddits);
+  const failedSubreddits = await scrapSubreddits(subreddits);
 
   const validSubreddits = subreddits.filter(
     subreddit => !failedSubreddits.includes(subreddit),
   );
 
   let links = [];
+  let redGifsLinks = [];
+  let redditLinks = [];
   if (validSubreddits.length > 0) {
-    links = await redditRepository.getLinks({
+    links = await getLinks({
       subreddits: validSubreddits,
       mediaTypes: mediaTypes && getEnumValues(MEDIA_TYPE, mediaTypes),
       limit,
     });
+    redGifsLinks = await resolveRedgifsLinks(
+      links.filter(link => link.directLink.includes("redgifs")),
+    );
+
+    redditLinks = links.filter(link => !link.directLink.includes("redgifs"));
   }
 
   res.send({
     failedSubreddits,
-    links,
+    links: [...redditLinks, ...redGifsLinks],
   });
 });
 

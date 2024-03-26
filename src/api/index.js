@@ -3,7 +3,7 @@ require("express-async-errors");
 const createError = require("http-errors");
 const cors = require("cors");
 require("../lib/validation/setupYup");
-const errorHandler = require("api/middleware/errorHandler");
+const errorHandler = require("./middleware/errorHandler");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
@@ -21,6 +21,7 @@ module.exports = {
           "https://fapinstructor.com",
           "https://www.fapinstructor.com",
           "https://fapchallenger.com",
+          "https://fapinstructor.onrender.com",
         ],
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],

@@ -5,7 +5,7 @@ const {
   AUTH_JWT_ISSUER,
   AUTH_JWKS_URI,
   AUTH_JWKS_REQUESTS_PER_MINUTE,
-} = require("config");
+} = require("../../config");
 
 const auth = ({ credentialsRequired = true } = {}) =>
   jwt({

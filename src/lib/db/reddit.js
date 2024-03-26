@@ -1,8 +1,8 @@
 const differenceInDays = require("date-fns/differenceInDays");
-const log = require("lib/logger");
+const log = require("pino")();
 const knex = require("./connection");
-const { resolveDirectLink } = require("lib/scrappers");
-const { getMediaType } = require("lib/media-type");
+const { resolveDirectLink } = require("../scrappers");
+const { getMediaType } = require("../media-type");
 
 const REDDIT_DOMAIN = "https://www.reddit.com";
 const DESIRED_MINIMUM_POSTS = 100;

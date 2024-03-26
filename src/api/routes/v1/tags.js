@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const tagDb = require("lib/db/tag");
+const tagDb = require("../../../lib/db/tag");
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-const log = require("lib/logger");
+const log = require("pino")();
 
 const createValidateMiddleware = schema => async (req, res, next) => {
   const options = {

@@ -3,7 +3,7 @@ const {
   AUTH0_DOMAIN,
   AUTH0_CLIENT_ID,
   AUTH0_CLIENT_SECRET,
-} = require("config");
+} = require("../../config");
 
 // Queestion: The token returned expires, does it auto-renew?
 const managementClient = new ManagementClient({

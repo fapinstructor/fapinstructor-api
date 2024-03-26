@@ -1,4 +1,4 @@
-const log = require("lib/logger");
+const log = require("pino")();
 
 function errorHandler(error, req, res, _next) {
   if (error.status !== 404) {
